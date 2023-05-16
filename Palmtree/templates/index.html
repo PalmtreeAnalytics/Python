@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PALMTREE ANALYTICS</title>
+    <style>
+        body{
+            margin: 0;
+        }
+
+        body::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("static/banner.jpeg");
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        .header{
+            display: flex;
+            align-items: flex-start;
+            justify-content: start;
+        }
+
+        .logo{
+            width: 100px;
+            height: 100px;
+            align-items: left;
+            background-image: url("static/a.jpeg");
+            background-size: cover;
+            margin-left: 5px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .heading{
+            font-size: 24px;
+            text-align: right;
+            align-items: center;
+            margin-left: 35%;
+            margin-top: 45px;
+        }
+
+        .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        left: 20px;
+        top: 20px;
+        margin-top: 15px;
+        padding-left: 7px;
+    }
+        
+        .button-container form {
+            width: 30%;
+        }
+
+        .button-container input[type="submit"] {
+            width: 30%;
+        }
+
+        .output{
+            position: fixed;
+            right: 4%;
+            top: 26%;
+            width: 60%;
+            overflow-x: auto;
+            z-index: 1;
+        }
+
+        h2 {
+            position: fixed;
+            right: 4%;
+            top: 16%;
+            width: 60%;
+            z-index: 1;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo" onclick="location.href='/'"></div>
+        <h1 class="heading">PALMTREE ANALYTICS</h1>
+    </div>
+    <div class="button-container">
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv,.xls,.xlsx"><br><br>
+        <input type="submit" value="Display Head">
+    </form>
+    <br>
+    <form action="/describe" method="post">
+        <input type="submit" value="Statistics">
+    </form>
+    <br>
+    <form action="/visualize" method="post">
+        <input type="submit" value="Visualize">
+    </form>
+    <br>
+    <form action="/classification" method="post">
+        <input type="submit" value="Classification">
+     </form>
+    <br>
+    <form action="/visualizeregression" method="post">
+        <input type="submit" value="Regression">
+     </form>
+    </div>
+
+    <div class="output">
+        {% if head_df %}
+        <h2>First Few Rows</h2>
+            {{ head_df|safe }}
+        {% endif %}
+    
+        {% if description %}
+            <h2>Summary Statistics</h2>
+            {{ description|safe }}
+        {% endif %}
+    </div>
+</body>
+</html>
