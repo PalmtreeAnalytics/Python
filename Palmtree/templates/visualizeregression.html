@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PALMTREE ANALYTICS</title>
+    <style>
+        body{
+            margin: 0;
+        }
+
+        body::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("static/banner.jpeg");
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        .header{
+            display: flex;
+            align-items: flex-start;
+            justify-content: start;
+        }
+
+        .logo{
+            width: 100px;
+            height: 100px;
+            align-items: left;
+            background-image: url("static/a.jpeg");
+            background-size: cover;
+            margin-left: 5px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .heading{
+            font-size: 24px;
+            text-align: right;
+            align-items: center;
+            margin-left: 35%;
+            margin-top: 45px;
+        }
+
+        .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        left: 20px;
+        top: 20px;
+        margin-top: 15px;
+        padding-left: 7px;
+        }
+        
+        .button-container form {
+            width: 30%;
+        }
+
+        .button-container input[type="submit"] {
+            width: 30%;
+        }
+
+        .output{
+            position: fixed;
+            right: -9%;
+            top: 25%;
+            width: 60%;
+            overflow-x: auto;
+            z-index: 1;
+        }
+
+        h2 {
+            position: fixed;
+            right: -9%;
+            top: 16%;
+            width: 60%;
+            z-index: 1;
+            color: #000000;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo" onclick="location.href='/'"></div>
+        <h1 class="heading">PALMTREE ANALYTICS</h1>
+    </div>
+    <div class="button-container">
+    <button onclick="showLinear()" style="width: 125px;">Linear Regression</button>
+    <br>
+    <button onclick="showDecision()" style="width: 125px;">Decision Tree Regression</button>
+    <br>
+    <button onclick="showForest()" style="width: 125px;">Random Forest Regression</button>
+    
+    <div id="linear-form" style="display: none;">
+        <form action="/linearregression" method="post">
+            <br>Linear Regression<br>
+            <label for="predict">Predict:</label>
+            <input type="text" id="predict" name="predict" required>
+            <br>
+            <input type="submit" value="Run" style="width: 125px;">
+        </form>
+    </div>
+        <div id="decision-form" style="display: none;">
+            <form action="/decisiontreeregression" method="post">
+            <br>Decision Tree Regression <br>
+            <label for="predict">Predict:</label>
+            <input type="text" id="predict" name="predict" required>
+            <br>
+            <input type="submit" value="Run" style="width: 125px;">
+            </form>
+        </div>
+            <div id="forest-form" style="display: none;">
+                <form action="/randomforestregression" method="post">
+                    <br>Random Forest Regression <br>
+                    <label for="predict">Predict:</label>
+            <input type="text" id="predict" name="predict" required>
+            <br>
+            <input type="submit" value="Run" style="width: 125px;">
+                </form>
+            
+    </div>
+
+    </div>
+
+    <div class="output">
+        {% if linear_result %}
+            <h2>Linear Regression</h2>
+            <pre>{{ linear_result }}</pre>
+            <img src="data:Image/png;base64, {{ linear_visual_result }}" alt="Linear Regression">
+        {% endif %}
+    
+        {% if decision_result %}
+            <h2>Decision Tree Regression</h2>
+            <pre>{{ decision_result }}</pre>
+            <img src="data:Image/png;base64, {{ decision_visual_result }}" alt="Decision Tree Regression">
+        {% endif %}
+
+        {% if forest_result %}
+            <h2>Random Forest Regression</h2>
+            <pre>{{ forest_result }}</pre>
+            <img src="data:Image/png;base64, {{ forest_visual_result }}" alt="Random Forest Regression">
+        {% endif %}
+    </div>
+
+    <script>
+        function showLinear() {
+            var form = document.getElementById("linear-form");
+            form.style.display = "block";
+            document.getElementById("decision-form").style.display = "none"; 
+            document.getElementById("forest-form").style.display = "none"; 
+        }
+
+        function showDecision() {
+            var form = document.getElementById("decision-form");
+            form.style.display = "block";
+            document.getElementById("linear-form").style.display = "none"; 
+            document.getElementById("forest-form").style.display = "none"; 
+        }
+
+        function showForest() {
+            var form = document.getElementById("forest-form");
+            form.style.display = "block";
+            document.getElementById("linear-form").style.display = "none";
+            document.getElementById("decision-form").style.display = "none";
+        }
+    </script>
+</body>
+</html>

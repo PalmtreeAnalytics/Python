@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PALMTREE ANALYTICS</title>
+    <style>
+        body{
+            margin: 0;
+        }
+
+        body::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("static/banner.jpeg");
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        .header{
+            display: flex;
+            align-items: flex-start;
+            justify-content: start;
+        }
+
+        .logo{
+            width: 100px;
+            height: 100px;
+            align-items: left;
+            background-image: url("static/a.jpeg");
+            background-size: cover;
+            margin-left: 5px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .heading{
+            font-size: 24px;
+            text-align: right;
+            align-items: center;
+            margin-left: 35%;
+            margin-top: 45px;
+        }
+
+        .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        left: 20px;
+        top: 20px;
+        margin-top: 15px;
+        padding-left: 7px;
+        }
+        
+        .button-container form {
+            width: 30%;
+        }
+
+        .button-container input[type="submit"] {
+            width: 30%;
+        }
+
+        .output{
+            position: fixed;
+            right: -9%;
+            top: 25%;
+            width: 60%;
+            overflow-x: auto;
+            z-index: 1;
+        }
+
+        h2 {
+            position: fixed;
+            right: -9%;
+            top: 16%;
+            width: 60%;
+            z-index: 1;
+            color: #000000;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo" onclick="location.href='/'"></div>
+        <h1 class="heading">PALMTREE ANALYTICS</h1>
+    </div>
+    <div class="button-container">
+    <br>
+    <form action="/boxplot" method="post">
+        <input type="submit" value="Box Plot">
+    </form>
+    <br>
+    <form action="/heatmap" method="post">
+        <input type="submit" value="Heatmap">
+    </form>
+    <br>
+    <form action="/timeseries" method="post">
+        <input type="submit" value="Timeseries">
+    </form>
+    <br>
+    <button onclick="showScatterForm()" style="width: 115px;">Scatter Plot</button>
+    
+    <div id="scatter-form" style="display: none;">
+        <form action="/scatter" method="post">
+            <label for="x-column">X Column:</label>
+            <input type="text" id="x-column" name="x_column" required>
+            <br>
+            <label for="y-column">Y Column:</label>
+            <input type="text" id="y-column" name="y_column" required>
+            <br>
+            <br>
+            <input type="submit" value="Run" style="width: 115px;">
+        </form>
+    </div>
+
+    </div>
+
+    <div class="output">
+        {% if boxplot %}
+            <h2>Box Plot</h2>
+            <img src="data:Image/png;base64, {{ boxplot }}" alt="Box Plot">
+        {% endif %}
+
+        {% if heatmap %}
+            <h2>Heat Map</h2>
+            <img src="data:Image/png;base64, {{ heatmap }}" alt="Heat Map">
+        {% endif %}
+
+        {% if timeseries %}
+            <h2>Time Series</h2>
+            <img src="data:Image/png;base64, {{ timeseries }}" alt="Time Series">
+        {% endif %}
+
+        {% if scatter %}
+            <h2>Scatter Plot</h2>
+            <img src="data:Image/png;base64, {{ scatter }}" alt="Heat Map">
+        {% endif %}
+    </div>
+
+    <script>
+        function showScatterForm() {
+            var form = document.getElementById("scatter-form");
+            form.style.display = "block";
+        }
+    </script>
+</body>
+</html>
